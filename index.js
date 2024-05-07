@@ -1,19 +1,16 @@
-function getHint(secret, guess) {
-  let bulls = 0;
-  let cows = 0;
-  const map = new Map();
-  for (let i = 0; i < secret.length; i++) {
-    if (secret[i] === guess[i]) {
-      bulls++;
-    } else {
-      map.set(secret[i], (map.get(secret[i]) || 0) + 1);
+function numDecodings(s) {
+  const dp = new Array(s.length + 1).fill(0);
+  dp[0] = 1;
+  dp[1] = s[0] === "0" ? 0 : 1;
+  for (let i = 2; i <= s.length; i++) {
+    const oneDigit = parseInt(s.substring(i - 1, i));
+    const twoDigits = parseInt(s.substring(i - 2, i));
+    if (oneDigit >= 1) {
+      dp[i] += dp[i - 1];
+    }
+    if (twoDigits >= 10 && twoDigits <= 26) {
+      dp[i] += dp[i - 2];
     }
   }
-  for (let i = 0; i < guess.length; i++) {
-    if (secret[i] !== guess[i] && map.has(guess[i]) && map.get(guess[i]) > 0) {
-      cows++;
-      map.set(guess[i], map.get(guess[i]) - 1);
-    }
-  }
-  return `${bulls}A${cows}B`;
+  return dp[s.length];
 }
