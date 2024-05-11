@@ -1,9 +1,17 @@
-const pullAtIndex = (arr, pullArr) => {
-  let removed = [];
-  let pulled = arr
-    .map((v, i) => (pullArr.includes(i) ? removed.push(v) : v))
-    .filter((v, i) => !pullArr.includes(i));
-  arr.length = 0;
-  pulled.forEach((v) => arr.push(v));
-  return removed;
-};
+function levelOrder(root) {
+  if (!root) return [];
+  const result = [];
+  const queue = [root];
+  while (queue.length) {
+    const levelSize = queue.length;
+    const currentLevel = [];
+    for (let i = 0; i < levelSize; i++) {
+      const node = queue.shift();
+      currentLevel.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    result.push(currentLevel);
+  }
+  return result;
+}
