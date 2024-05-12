@@ -1,17 +1,24 @@
-function levelOrder(root) {
-  if (!root) return [];
-  const result = [];
-  const queue = [root];
-  while (queue.length) {
-    const levelSize = queue.length;
-    const currentLevel = [];
-    for (let i = 0; i < levelSize; i++) {
-      const node = queue.shift();
-      currentLevel.push(node.val);
-      if (node.left) queue.push(node.left);
-      if (node.right) queue.push(node.right);
-    }
-    result.push(currentLevel);
+const mergeSort = (arr) => {
+  if (arr.length <= 1) {
+    return arr;
   }
-  return result;
-}
+  const mid = Math.floor(arr.length / 2);
+  const left = mergeSort(arr.slice(0, mid));
+  const right = mergeSort(arr.slice(mid));
+  return merge(left, right);
+};
+const merge = (left, right) => {
+  let result = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] < right[rightIndex]) {
+      result.push(left[leftIndex]);
+      leftIndex++;
+    } else {
+      result.push(right[rightIndex]);
+      rightIndex++;
+    }
+  }
+  return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+};
